@@ -1,6 +1,7 @@
 package com.polarbookshop.catalogservice.web
 
 import com.polarbookshop.catalogservice.domain.*
+import jakarta.validation.Valid
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,13 +24,13 @@ class BookController(val bookService: BookService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun post(@RequestBody book: Book): Book = bookService.addBookToCatalog(book)
+    fun post(@Valid @RequestBody book: Book): Book = bookService.addBookToCatalog(book)
 
     @DeleteMapping("{isbn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable isbn: String) = bookService.removeBookFromCatalog(isbn)
 
     @PutMapping("{isbn}")
-    fun put(@PathVariable isbn: String, @RequestBody book: Book): Book =
+    fun put(@PathVariable isbn: String, @Valid @RequestBody book: Book): Book =
         bookService.editBookDetails(isbn, book)
 }

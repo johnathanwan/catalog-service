@@ -6,7 +6,9 @@ import java.util.concurrent.*
 
 @Repository
 class InMemoryBookRepository : BookRepository {
+
     private val books: MutableMap<String, Book> = ConcurrentHashMap()
+
     override fun findAll(): Iterable<Book> = books.values
 
     override fun findByIsbn(isbn: String): Book? = if (existsByIsbn(isbn)) books[isbn] else null
