@@ -1,9 +1,8 @@
 package com.polarbookshop.catalogservice.domain
 
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Positive
+import jakarta.validation.constraints.*
+import org.springframework.data.annotation.*
+import java.time.*
 
 data class Book(
     @field:NotBlank(message = "The book ISBN must be defined.")
@@ -16,5 +15,17 @@ data class Book(
     @field:NotBlank(message = "The book author must be defined.") val author: String,
     @field:NotNull(message = "The book price must be defined.")
     @field:Positive(message = "The book price must be greater than zero.")
-    val price: Double
+    val price: Double,
+
+    @CreatedDate
+    val createdDate: Instant? = null,
+
+    @LastModifiedDate
+    val lastModifiedDate: Instant? = null,
+
+    @Version
+    val version: Int = 0,
+
+    @Id
+    val id: Long? = null
 )

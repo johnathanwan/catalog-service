@@ -17,6 +17,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 repositories { mavenCentral() }
 
 extra["springCloudVersion"] = "2022.0.0"
+extra["testcontainersVersion"] = "1.17.6"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -27,15 +28,23 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.flywaydb:flyway-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("org.testcontainers:postgresql")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
+    runtimeOnly("org.postgresql:postgresql")
 }
 
 dependencyManagement {
     imports {
         mavenBom(
             "org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}"
+
+        )
+        mavenBom(
+            "org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}"
         )
     }
 }
