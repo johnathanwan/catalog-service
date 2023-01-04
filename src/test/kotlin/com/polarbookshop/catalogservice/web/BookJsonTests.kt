@@ -21,10 +21,10 @@ class BookJsonTests(@Autowired private val json: JacksonTester<Book>) {
         assertThat(jsonContent).extractingJsonPathStringValue("@.title").isEqualTo(book.title)
         assertThat(jsonContent).extractingJsonPathStringValue("@.author").isEqualTo(book.author)
         assertThat(jsonContent).extractingJsonPathNumberValue("@.price").isEqualTo(book.price)
-        assertThat(jsonContent).extractingJsonPathNumberValue("@.createdDate").isEqualTo(book.createdDate)
-        assertThat(jsonContent).extractingJsonPathNumberValue("@.lastModifiedDate").isEqualTo(book.lastModifiedDate)
-        assertThat(jsonContent).extractingJsonPathNumberValue("@.version").isEqualTo(book.price)
-        assertThat(jsonContent).extractingJsonPathNumberValue("@.id").isEqualTo(book.id)
+        assertThat(jsonContent).extractingJsonPathStringValue("@.createdDate").isEqualTo(book.createdDate?.toString())
+        assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedDate").isEqualTo(book.lastModifiedDate?.toString())
+        assertThat(jsonContent).extractingJsonPathNumberValue("@.version").isEqualTo(book.version)
+        assertThat(jsonContent).extractingJsonPathNumberValue("@.id").isEqualTo(book.id?.toInt())
 
     }
 
@@ -36,16 +36,15 @@ class BookJsonTests(@Autowired private val json: JacksonTester<Book>) {
                 "isbn": "1234567890",
                 "title": "Title",
                 "author": "Author",
-                "price": 9.90
-                "createdDate": "2023-01-04T13:35:37.135029Z"
-                "lastModifiedDate": "2023-01-04T13:35:37.135029Z"
-                "version": 21
+                "price": 9.90,
+                "createdDate": "2023-01-04T13:35:37.135029Z",
+                "lastModifiedDate": "2023-01-04T13:35:37.135029Z",
+                "version": 21,
                 "id": 394
-                
             }
              """.trimIndent()
 
         assertThat(json.parse(content)).usingRecursiveComparison()
-            .isEqualTo(Book("1234567890", "Title", "Author", 9.90, instant, instant, 21, 394L))
+            .isEqualTo(Book("1234567890", "Title", "Author", 9.90, instant,instant, 21, 394L))
     }
 }
