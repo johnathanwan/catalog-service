@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     id("org.springframework.boot") version "3.0.1"
@@ -66,4 +67,17 @@ tasks.register("bootRunTestData") {
     description = "Runs the Spring Boot application with the testdata profile"
     doFirst { tasks.bootRun.configure { systemProperty("spring.profiles.active", "testdata") } }
     finalizedBy("bootRun")
+}
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+    imageName.set(project.name)
+    environment.set(mapOf("BP_JVM_VERSION" to "17.*"))
+    publish.set(true)
+    docker {
+        publishRegistry {
+            username.set(project.findProperty("registryUsername")?.toString())
+            password.set(project.findProperty("registryToken")?.toString())
+            url.set(project.findProperty("registryUrl")?.toString())
+        }
+    }
 }
