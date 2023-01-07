@@ -72,7 +72,7 @@ tasks.register("bootRunTestData") {
 tasks.named<BootBuildImage>("bootBuildImage") {
     imageName.set(project.name)
     environment.set(mapOf("BP_JVM_VERSION" to "17.*"))
-    publish.set(true)
+    publish.set(false)
     docker {
         publishRegistry {
             username.set(project.findProperty("registryUsername")?.toString())

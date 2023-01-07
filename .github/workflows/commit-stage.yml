@@ -57,8 +57,6 @@ jobs:
           java-version: 17
           cache: gradle
       - name: Build container image
-        with:
-          push: false
         run: |
           chmod +x gradlew
           ./gradlew bootBuildImage --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
